@@ -5,7 +5,7 @@ services:
     build: ./server
     container_name: express-server
     ports:
-      - "4000:4000"
+      - "127.0.0.1:4000:4000"
     networks:
       - fullstack-net
     restart: unless-stopped
@@ -14,7 +14,7 @@ services:
     build: ./client
     container_name: react-client
     ports:
-      - "5174:3000"
+      - "127.0.0.1:5174:3000"
     networks:
       - fullstack-net
     depends_on:
