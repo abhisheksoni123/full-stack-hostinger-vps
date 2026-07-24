@@ -16,7 +16,7 @@ function App() {
 
   return (
     <>
-      <h1>Welcome to chai with Abhi</h1>
+      <h1>Welcome to chai with Abhi soni</h1>
       <h2>Data {message}</h2>
     </>
   );
