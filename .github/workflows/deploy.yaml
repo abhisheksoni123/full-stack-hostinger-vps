@@ -18,8 +18,8 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: root
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /root/full-stack-hostinger-vps
+            cd /root/full-stack-deploy/full-stack-hostinger-vps
             git pull
             docker compose up -d --build
