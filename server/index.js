@@ -1,7 +1,11 @@
 import express from "express";
 import cors from "cors";
+import User from "./models/User.js";
+import connectDB from "./db.js";
 
 const app = express();
+
+connectDB();
 
 app.use(express.json());
 
@@ -17,7 +21,7 @@ app.use(
       "https://codewithsoni.online",
     ],
     credentials: true,
-    methods: ["POST", "GET", "PUT", "PATCH"],
+    methods: ["GET", "POST", "PUT", "PATCH", "OPTIONS"],
   }),
 );
 
@@ -30,7 +34,7 @@ app.get("/api/users", async (req, res) => {
   try {
     const users = await User.find();
 
-    res.json(users);
+    res.status(200).json(users);
   } catch (error) {
     res.status(500).json({
       message: error.message,
