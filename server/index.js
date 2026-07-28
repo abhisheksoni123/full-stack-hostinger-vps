@@ -4,6 +4,7 @@ import cors from "cors";
 const app = express();
 
 app.use(express.json());
+
 app.use(
   cors({
     origin: [
@@ -23,6 +24,18 @@ app.use(
 //Api route
 app.get("/api/message", (req, res) => {
   res.json({ message: "Hello from abhisoni" });
+});
+
+app.get("/api/users", async (req, res) => {
+  try {
+    const users = await User.find();
+
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 });
 
 const PORT = 4000;
