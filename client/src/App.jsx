@@ -5,8 +5,14 @@ function App() {
 
   useEffect(() => {
     fetch("/api/users")
-      .then((res) => res.json())
-      .then((data) => setUsers(data))
+      .then(async (res) => {
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(text);
+        }
+        return res.json();
+      })
+      .then(setUsers)
       .catch(console.error);
   }, []);
 
