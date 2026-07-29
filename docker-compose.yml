@@ -1,11 +1,24 @@
 version: "3.9"
 
 services:
+  mongodb:
+    image: mongo:8
+    container_name: mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - fullstack-net
+
   server:
     build: ./server
     container_name: express-server
     ports:
       - "127.0.0.1:4000:4000"
+    depends_on:
+      - mongodb
     networks:
       - fullstack-net
     restart: unless-stopped
@@ -15,12 +28,15 @@ services:
     container_name: react-client
     ports:
       - "127.0.0.1:5174:3000"
-    networks:
-      - fullstack-net
     depends_on:
       - server
+    networks:
+      - fullstack-net
     restart: unless-stopped
 
 networks:
   fullstack-net:
     driver: bridge
+
+volumes:
+  mongo-data:
