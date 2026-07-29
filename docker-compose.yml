@@ -23,7 +23,6 @@ services:
       - mongodb
     networks:
       - fullstack-net
-    restart: unless-stopped
 
   client:
     build: ./client
@@ -34,7 +33,6 @@ services:
       - server
     networks:
       - fullstack-net
-    restart: unless-stopped
 
 networks:
   fullstack-net:
