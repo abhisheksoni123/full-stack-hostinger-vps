@@ -1,33 +1,23 @@
-import { useEffect, useState } from "react";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import NotFound from "./pages/NotFound";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    fetch("/api/users")
-      .then(async (res) => {
-        if (!res.ok) {
-          const text = await res.text();
-          throw new Error(text);
-        }
-        return res.json();
-      })
-      .then(setUsers)
-      .catch(console.error);
-  }, []);
-
   return (
-    <div>
-      <h1>Users</h1>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
 
-      {users.map((user) => (
-        <div key={user._id}>
-          <h3>{user.name}hello</h3>
-          <p>{user.email}</p>
-          <p>{user.role}</p>
-        </div>
-      ))}
-    </div>
+        <Route path="/login" element={<Login />} />
+
+        <Route path="/signup" element={<Signup />} />
+
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

@@ -1,11 +1,13 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+import authRoutes from "./routes/authRoutes.js";
 import express from "express";
 import cors from "cors";
 import User from "./models/User.js";
 import connectDB from "./db.js";
 
+console.log("Running file:", import.meta.url);
 const app = express();
 
 connectDB();
@@ -28,7 +30,12 @@ app.use(
   }),
 );
 
-//Api route
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
+// Api route
 app.get("/api/message", (req, res) => {
   res.json({ message: "Hello from abhisoni" });
 });
@@ -44,6 +51,12 @@ app.get("/api/users", async (req, res) => {
     });
   }
 });
+
+app.get("/api/test", (req, res) => {
+  res.json({ message: "Auth route working" });
+});
+
+app.use("/api/auth", authRoutes);
 
 const PORT = 4000;
 
