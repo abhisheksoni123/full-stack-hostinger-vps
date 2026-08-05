@@ -16,7 +16,7 @@ services:
     build: ./server
     container_name: express-server
     env_file:
-      - ./server/.env
+      - ./server/.env.production
     ports:
       - "127.0.0.1:4000:4000"
     depends_on:
