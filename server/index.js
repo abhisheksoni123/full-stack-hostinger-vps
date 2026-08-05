@@ -1,5 +1,9 @@
 import dotenv from "dotenv";
-dotenv.config();
+
+dotenv.config({
+  path:
+    process.env.NODE_ENV === "production" ? ".env.production" : ".env.local",
+});
 
 import authRoutes from "./routes/authRoutes.js";
 import express from "express";
@@ -9,8 +13,6 @@ import connectDB from "./db.js";
 
 console.log("Running file:", import.meta.url);
 const app = express();
-
-connectDB();
 
 app.use(express.json());
 
@@ -60,4 +62,12 @@ app.use("/api/auth", authRoutes);
 
 const PORT = 4000;
 
-app.listen(PORT, "0.0.0.0", () => console.log("Listening at port 4000"));
+const startServer = async () => {
+  await connectDB();
+
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Listening on port ${PORT}`);
+  });
+};
+
+startServer();

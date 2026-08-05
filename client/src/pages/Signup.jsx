@@ -1,36 +1,32 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import useApi from "../hooks/useApi";
+import { toast } from "sonner";
 
 function Signup() {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { data, loading, error, callApi } = useApi();
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userName,
-          email,
-          password,
-        }),
-      });
 
-      const data = await response.json();
-      if (response.ok) {
-        alert("Login success");
-        navigate("/login");
-      } else {
-        alert(data.message);
-      }
-    } catch (err) {
-      console.log("err", err);
+    const data = await callApi("/api/auth/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userName,
+        email,
+        password,
+      }),
+    });
+    if (data) {
+      toast.success("User created!");
+      navigate("/login");
     }
   };
   return (

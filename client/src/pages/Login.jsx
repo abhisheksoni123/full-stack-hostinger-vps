@@ -1,41 +1,33 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useApi from "../hooks/useApi";
+import { toast } from "sonner";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { data, loading, error, callApi } = useApi();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
-
-      const data = await response.json();
-
-      console.log(data);
-
-      if (response.ok) {
-        console.log("Login Successful");
-        navigate("/home");
-      } else {
-        console.log(data.message);
-      }
-    } catch (error) {
-      console.error(error);
-      console.log("Something went wrong");
+    const data = await callApi("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+    if (data) {
+      toast.success("Login successful!");
+      navigate("/home");
     }
   };
+
   return (
     <div className="flex flex-col gap-10 border p-7 w-full rounded-xl">
       <div className="">
