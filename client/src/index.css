@@ -108,3 +108,7 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+.debug {
+  border: 1px red solid;
+}
